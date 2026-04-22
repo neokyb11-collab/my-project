@@ -15,8 +15,7 @@ export default function Home() {
     );
   }
 
-  if (!isAuthenticated) return <LandingPage />;
-  return <DashboardPage user={user} />;
+return <DashboardPage user={user} />;
 }
 
 function LandingPage() {
