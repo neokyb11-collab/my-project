@@ -49,7 +49,15 @@ export function registerOAuthRoutes(app: Express) {
       });
 
       const cookieOptions = getSessionCookieOptions(req);
-      res.cookie(COOKIE_NAME, openId, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+const cookieOptions = getSessionCookieOptions(req);
+res.cookie(COOKIE_NAME, openId, { 
+  ...cookieOptions, 
+  maxAge: ONE_YEAR_MS,
+  httpOnly: true,
+  secure: true,
+  sameSite: 'lax'
+});
+
       res.redirect(302, "/");
     } catch (error) {
       console.error("[OAuth] Google callback failed", error);

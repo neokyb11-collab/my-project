@@ -1,6 +1,5 @@
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
 import type { User } from "../../drizzle/schema";
-import { COOKIE_NAME } from "@shared/const";
 import * as db from "../db";
 
 export type TrpcContext = {
@@ -9,25 +8,35 @@ export type TrpcContext = {
   user: User | null;
 };
 
+const GUEST_USER: User = {
+  id: 1,
+  openId: "guest",
+  name: "Guest",
+  email: null,
+  loginMethod: "guest",
+  role: "user",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  lastSignedIn: new Date(),
+};
+
 export async function createContext(
   opts: CreateExpressContextOptions
 ): Promise<TrpcContext> {
-  let user: User | null = null;
-
+  // Ensure guest user exists in DB
   try {
-    const cookies = opts.req.headers.cookie || "";
-    const match = cookies.match(new RegExp(`${COOKIE_NAME}=([^;]+)`));
-    const openId = match ? decodeURIComponent(match[1]) : null;
-    if (openId) {
-      user = await db.getUserByOpenId(openId);
-    }
-  } catch (error) {
-    user = null;
-  }
+    await db.upsertUser({
+      openId: "guest",
+      name: "Guest",
+      email: null,
+      loginMethod: "guest",
+      lastSignedIn: new Date(),
+    });
+  } catch (e) {}
 
   return {
     req: opts.req,
     res: opts.res,
-    user,
+    user: GUEST_USER,
   };
 }
