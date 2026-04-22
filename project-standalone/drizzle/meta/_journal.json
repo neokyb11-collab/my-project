@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1776643333560,
+      "tag": "0000_lumpy_scream",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1776643448038,
+      "tag": "0001_regular_namorita",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1776645530334,
+      "tag": "0002_outstanding_stepford_cuckoos",
+      "breakpoints": true
+    }
+  ]
+}
